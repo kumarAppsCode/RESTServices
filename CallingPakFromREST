@@ -5,7 +5,7 @@ is
       p_vendor_id in number);
 
 END XXSC_VENDOR_PKG;
-
+----------------------------------------------------------------------------------
 create or replace package body XXSC_VENDOR_PKG  
 is
 procedure getvendorname(
@@ -23,3 +23,11 @@ procedure getvendorname(
     end getvendorname;
 end XXSC_VENDOR_PKG;
 
+-----------------------------------------
+
+DECLARE
+P_VENDOR_ID NUMBER;
+
+BEGIN
+ XXSC_VENDOR_PKG.GETVENDORNAME(:P_VENDOR_ID);
+END;
