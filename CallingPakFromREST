@@ -1,0 +1,25 @@
+
+create or replace PACKAGE  "XXSC_VENDOR_PKG" 
+is
+  procedure getvendorname(
+      p_vendor_id in number);
+
+END XXSC_VENDOR_PKG;
+
+create or replace package body XXSC_VENDOR_PKG  
+is
+procedure getvendorname(
+      p_vendor_id in number) is
+      l_cursor sys_refcursor;
+    begin
+    
+    OPEN l_cursor for  select vendor_name from xxstg_vendors where vendor_id = p_vendor_id;
+    
+    apex_json.open_object;
+    APEX_JSON.write('vendorName', l_cursor);
+    apex_json.close_object;
+    
+  --  return p_vendor_name;
+    end getvendorname;
+end XXSC_VENDOR_PKG;
+
