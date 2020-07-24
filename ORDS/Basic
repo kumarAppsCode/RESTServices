@@ -1,0 +1,49 @@
+REST Services
+Enable ORDS
+http://localhostip:port/ords/
+***********************************************************************
+BEGIN
+  ORDS.enable_schema(
+    p_enabled             => TRUE,
+    p_schema              => 'SCHEMA_NAME',
+    p_url_mapping_type    => 'BASE_PATH',
+    p_url_mapping_pattern => 'sale',
+    p_auto_rest_auth      => FALSE
+  );
+  COMMIT;
+END;
+
+http://localhostip:port/ords/sale/
+--404 Not Found will come
+
+-----------------------------------------------------------------------
+SELECT id, name, uri_prefix
+FROM   user_ords_modules
+ORDER BY name;
+***********************************************************************
+SELECT id, module_id, uri_template
+FROM   user_ords_templates
+ORDER BY module_id;
+***********************************************************************
+SELECT id, template_id, source_type, method, source
+FROM   user_ords_handlers
+ORDER BY id;
+***********************************************************************
+SELECT
+    temp.module_id,
+    mod.name,
+    mod.uri_prefix,
+    temp.uri_template,
+    hand.method,
+    hand.source,
+    hand.mimes_allowed,
+    hand.source_type
+--    hand.items_per_page,
+FROM
+    user_ords_modules     mod,
+    user_ords_templates   temp,
+        user_ords_handlers    hand
+WHERE
+    mod.id = temp.module_id
+    AND temp.id = hand.template_id
+***********************************************************************
