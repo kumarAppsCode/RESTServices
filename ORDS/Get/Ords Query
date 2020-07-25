@@ -1,0 +1,73 @@
+SELECT id, template_id, source_type, method, source
+FROM   user_ords_handlers
+ORDER BY id;
+
+/
+
+--------1
+begin
+ ORDS_METADATA.ORDS.DEFINE_TEMPLATE(
+    P_MODULE_NAME => 'GET_API',
+    P_PATTERN => 'org1/:orgid'
+  );
+ORDS.DEFINE_HANDLER(
+    P_MODULE_NAME => 'GET_API',
+    P_PATTERN => 'org1/:orgid',
+    P_METHOD => 'GET',
+    P_SOURCE_TYPE => ords.source_type_plsql,
+    P_SOURCE => 'begin get_json_org(:orgid);end;',
+    p_items_per_page => 0
+  );  
+  commit;
+end;
+/
+--------2
+begin
+ ORDS_METADATA.ORDS.DEFINE_TEMPLATE(
+    P_MODULE_NAME => 'GET_API',
+    P_PATTERN => 'org2/:orgid'
+  );
+ORDS.DEFINE_HANDLER(
+    P_MODULE_NAME => 'GET_API',
+    P_PATTERN => 'org2/:orgid',
+    P_METHOD => 'GET',
+    P_SOURCE_TYPE => ords.source_type_plsql,
+    P_SOURCE => 'begin get_json_org_to_child(:orgid);end;',
+    p_items_per_page => 0
+  );  
+  commit;
+end;
+/
+--------3
+begin
+ ORDS_METADATA.ORDS.DEFINE_TEMPLATE(
+    P_MODULE_NAME => 'GET_API',
+    P_PATTERN => 'org3/:orgid'
+  );
+ORDS.DEFINE_HANDLER(
+    P_MODULE_NAME => 'GET_API',
+    P_PATTERN => 'org3/:orgid',
+    P_METHOD => 'GET',
+    P_SOURCE_TYPE => ords.source_type_plsql,
+    P_SOURCE => 'begin get_json_org_to_child_many(:orgid);end;',
+    p_items_per_page => 0
+  );  
+  commit;
+end;
+/
+--------4
+begin
+ ORDS_METADATA.ORDS.DEFINE_TEMPLATE(
+    P_MODULE_NAME => 'GET_API',
+    P_PATTERN => 'org4/:orgid'
+  );
+ ORDS.DEFINE_HANDLER(
+    P_MODULE_NAME => 'GET_API',
+    P_PATTERN => 'org4/:orgid',
+    P_METHOD => 'GET',
+    P_SOURCE_TYPE => ords.source_type_plsql,
+    P_SOURCE => 'begin get_json_org_to_child_manys(:orgid);end;',
+    p_items_per_page => 0
+  );  
+  commit;
+end;
